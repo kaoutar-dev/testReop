@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des Stagiaires</title>
+    <style>
+        /* Styles CSS */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: rgb(52, 51, 48);
+        }
+
+        h1 {
+            text-align: center;
+            color: #ff7200;
+        }
+
+        .container {
+            width: 60%;
+            margin: 0 auto;
+        }
+
+        .form-container {
+            border: 1px solid #ddd;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            
+        }
+
+        label {
+            font-weight: bold;
+            
+        }
+
+        input {
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+            color: white;
+            background-color: #ff7200;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #e37b26;
+        }
+
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+
+        table th {
+            background-color: bisque;
+            font-weight: bold;
+        }
+
+        table td {
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Liste des Stagiaires</h1>
+
+    <div class="container">
+        <!-- Formulaire pour filtrer les stagiaires -->
+        <div class="form-container">
+            <form id="filterForm">
+                <label for="filiere">Filière :</label>
+                <input type="text" id="filiere" placeholder="Exemple : Informatique" required>
+
+                <label for="annee">Année :</label>
+                <input type="number" id="annee" placeholder="Exemple : 2024" required>
+
+                <button type="submit">Afficher</button>
+            </form>
+        </div>
+
+        <!-- Table pour afficher les stagiaires -->
+        <table id="stagiaireTable">
+            <thead>
+                <tr>
+                    <th>Matricule</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Filière</th>
+                    <th>Année d'étude</th>
+                    <th>Type Bac</th>
+                    <th>Année Bac</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Les résultats seront affichés ici -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Données fictives des stagiaires
+        const stagiaires = [
+            { matricule: "1001", nom: "Dupont", prenom: "Marie", filiere: "Informatique", annee: 2024 },
+            { matricule: "1002", nom: "El Amrani", prenom: "Youssef", filiere: "Informatique", annee: 2024 },
+            { matricule: "1003", nom: "Smith", prenom: "John", filiere: "Gestion", annee: 2023 },
+            { matricule: "1004", nom: "Zouaoui", prenom: "Amal", filiere: "Gestion", annee: 2023 },
+            { matricule: "1005", nom: "Martin", prenom: "Alice", filiere: "Informatique", annee: 2023 },
+        ];
+
+        // Fonction pour afficher les stagiaires filtrés
+        function afficherStagiaires(filiere, annee) {
+            const tableBody = document.querySelector("#stagiaireTable tbody");
+            tableBody.innerHTML = ""; // Vider le tableau avant d'ajouter les résultats
+
+            // Filtrer les stagiaires selon la filière et l'année
+            const resultats = stagiaires.filter(
+                (stagiaire) =>
+                    stagiaire.filiere.toLowerCase() === filiere.toLowerCase() &&
+                    stagiaire.annee === parseInt(annee)
+            );
+
+            // Ajouter les résultats dans la table
+            if (resultats.length > 0) {
+                resultats.forEach((stagiaire) => {
+                    const row = `
+                        <tr>
+                            <td>${stagiaire.matricule}</td>
+                            <td>${stagiaire.nom}</td>
+                            <td>${stagiaire.prenom}</td>
+                            <td>${stagiaire.filiere}</td>
+                            <td>${stagiaire.anneeEtude}</td>
+                            <td>${stagiaire.typeBac}</td>
+                            <td>${stagiaire.anneeBac}</td>
+                        </tr>
+                    `;
+                    tableBody.innerHTML += row;
+                });
+            } else {
+                tableBody.innerHTML = "<tr><td colspan='7'>Aucun stagiaire trouvé</td></tr>";
+            }
+        }
+
+        // Gestion de la soumission du formulaire
+        document.getElementById("filterForm").addEventListener("submit", (event) => {
+            event.preventDefault(); // Empêcher le rechargement de la page
+
+            const filiere = document.getElementById("filiere").value;
+            const annee = document.getElementById("annee").value;
+
+            afficherStagiaires(filiere, annee);
+        });
+    </script>
+</body>
+</html>
