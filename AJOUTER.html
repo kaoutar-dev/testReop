@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Stagiaires</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: rgb(52, 51, 48);
+        }
+
+        h1 {
+            text-align: center;
+            color: #ff7200;
+        }
+
+        .form-container, .table-container {
+            margin: 0 auto;
+            width: 80%;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #ff7200;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #e37b26;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        table th {
+            background-color: bisque;
+            font-weight: bold;
+        }
+
+        table tbody tr:nth-child(odd) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Ajouter un Stagiaire</h1>
+
+    <!-- Formulaire pour ajouter un stagiaire -->
+    <div class="form-container">
+        <form id="addStagiaireForm">
+            <label for="matricule">Matricule :</label>
+            <input type="text" id="matricule" placeholder="Exemple : 1001" required>
+
+            <label for="nom">Nom :</label>
+            <input type="text" id="nom" placeholder="Exemple : Dupont" required>
+
+            <label for="prenom">Prénom :</label>
+            <input type="text" id="prenom" placeholder="Exemple : Marie" required>
+
+            <label for="filiere">Filière :</label>
+            <input type="text" id="filiere" placeholder="Exemple : Informatique" required>
+
+            <label for="anneeEtude">Année d'étude :</label>
+            <input type="number" id="anneeEtude" placeholder="Exemple : 2024" required>
+
+            <label for="typeBac">Type Bac :</label>
+            <input type="text" id="typeBac" placeholder="Exemple : Science de la vie et de la terre" required>
+
+            <label for="anneeBac">Année Bac :</label>
+            <input type="text" id="anneeBac" placeholder="Exemple : 2023" required>
+
+            <button type="submit">Ajouter</button>
+        </form>
+    </div>
+
+    <!-- Table pour afficher la liste des stagiaires -->
+    <div class="table-container">
+        <table id="listeStagiaires">
+            <thead>
+                <tr>
+                    <th>Matricule</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Filière</th>
+                    <th>Année d'étude</th>
+                    <th>Type Bac</th>
+                    <th>Année Bac</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Les stagiaires ajoutés s'affichent ici -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Tableau pour stocker les stagiaires
+        const stagiaires = [];
+
+        // Fonction pour afficher la liste des stagiaires
+        function afficherStagiaires() {
+            const tbody = document.querySelector("#listeStagiaires tbody");
+            tbody.innerHTML = ""; // Vider la table avant de réinsérer les données
+
+            stagiaires.forEach((stagiaire) => {
+                const row = `
+                    <tr>
+                        <td>${stagiaire.matricule}</td>
+                        <td>${stagiaire.nom}</td>
+                        <td>${stagiaire.prenom}</td>
+                        <td>${stagiaire.filiere}</td>
+                        <td>${stagiaire.anneeEtude}</td>
+                        <td>${stagiaire.typeBac}</td>
+                        <td>${stagiaire.anneeBac}</td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        // Gestion de l'ajout de stagiaire
+        document.getElementById("addStagiaireForm").addEventListener("submit", (event) => {
+            event.preventDefault(); // Empêcher le rechargement de la page
+
+            // Récupérer les valeurs du formulaire
+            const matricule = document.getElementById("matricule").value;
+            const nom = document.getElementById("nom").value;
+            const prenom = document.getElementById("prenom").value;
+            const filiere = document.getElementById("filiere").value;
+            const anneeEtude = document.getElementById("anneeEtude").value;
+            const typeBac = document.getElementById("typeBac").value;
+            const anneeBac = document.getElementById("anneeBac").value;
+
+            // Ajouter le stagiaire dans le tableau
+            stagiaires.push({ matricule, nom, prenom, filiere, anneeEtude, typeBac, anneeBac });
+
+            // Réinitialiser le formulaire
+            event.target.reset();
+
+            // Mettre à jour la table
+            afficherStagiaires();
+        });
+    </script>
+</body>
+</html>
